@@ -4,35 +4,35 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script >
 	$(function (){ 
-		$("#write").click(function() {
-			$("#frm").prop("method","post").prop("action","write").submit();
+		$("#writeSubmit").click(function() {
+			$("#writefrm").prop("method","post").prop("action","write").submit();
 		})
 	})
 	
 	$(function (){ 
 		$("#modify").click(function() {
-			$("#frm").prop("method","post").prop("action","modify").submit();
+			$("#writefrm").prop("method","post").prop("action","modify").submit();
 		})
 	})
 	$(document).ready(function(){
-    	$("#frm :input:text:visible:enabled:first").focus();
+    	$("#writefrm :input:text:visible:enabled:first").focus();
     
 	    $("#id").click(function(){
 	    	$("input[name=memId]").focus();
 	    })
 	})
 	
-</script>
+</script> -->
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<div>
-		<form id="frm" accept-charset="utf-8">
+		<form id="writefrm" accept-charset="utf-8">
 			<c:choose>
 			
 			<c:when test="${modi ne null}">
@@ -48,7 +48,7 @@
 			<p id="id">id : <input type="text" name="memId" /></p>
 			<p id="subject">제목 : <input type="text" name="boardSubject" /></p>
 			<p id="content">내용 : <input type="text" name="boardContent" /></p>
-			<input type="button" value="등록" id="write" />
+			<input type="button" value="등록" id="writeSubmit" />
 			</c:otherwise>
 			</c:choose>
 			<input type="button" value="취소" onClick="location.href='list'" />

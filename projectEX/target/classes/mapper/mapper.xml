@@ -12,18 +12,6 @@
 		<result column="upt_date" property="uptDate" ></result>
 		<result column="view_cnt" property="viewCnt" ></result>
 	</resultMap>
-	<select id="list" parameterType="map" resultMap="mapList">
-		select
-			seq
-			,mem_name
-			,mem_id
-			,board_subject
-			,board_content
-			,reg_date
-			,upt_date
-			,view_cnt
-		from board_study
-	</select> 
 	
 	<resultMap id="mapList1" type="map">
 		<result column="seq" property="seq"></result>
@@ -182,7 +170,36 @@
 	
 	<!-- 페이징 처리 -->
 	<select id="totalCount" parameterType="map" resultType="integer">
-		select count(seq) from board_study
+		select count(seq) 
+		from
+		board_study
+		where 1=1
+				<if test="datepicker != null and datepicker != '' and datepicker1 != null and datepicker1 != ''">
+							and reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')
+				</if>
+				<choose>
+					<when test="keyword == null">
+					</when>
+					<otherwise>
+						<choose>
+							<when test="searchOption == 'all'">
+								and (mem_name like '%'||#{keyword}||'%' or
+								board_subject like '%'||#{keyword}||'%' or
+								board_content like '%'||#{keyword}||'%')
+							</when>
+							<when test="searchOption == 'writer'">
+								and mem_name like '%'||#{keyword}||'%'
+							</when>
+							<when test="searchOption == 'title'">
+								and board_subject like '%'||#{keyword}||'%'
+							</when>
+							<otherwise>
+								and (board_subject like '%'||#{keyword}||'%' or
+								board_content like '%'||#{keyword}||'%')
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
 	</select>
 	
 	<select id="limitSave" parameterType="map" resultMap="mapList">
@@ -213,34 +230,63 @@
 			,upt_date
 			,view_cnt from board_study order by seq desc))
 		where 1=1
+				<if test="datepicker != null and datepicker != '' and datepicker1 != null and datepicker1 != ''">
+							and reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')
+				</if>
 				<choose>
 					<when test="keyword == null">
-						and rnm <![CDATA[>=]]> (${firstPage}-1)*${limit}+1 and rnm <![CDATA[<=]]> ${firstPage}*${limit}
+						and rnm <![CDATA[>=]]> (${nowPage}-1)*${limit}+1 and rnm <![CDATA[<=]]> ${nowPage}*${limit}
 					</when>
 					<otherwise>
 						<choose>
 							<when test="searchOption == 'all'">
 								and (mem_name like '%'||#{keyword}||'%' or
 								board_subject like '%'||#{keyword}||'%' or
-								board_content like '%'||#{keyword}||'%') and
-								reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')+1
+								board_content like '%'||#{keyword}||'%')
 							</when>
 							<when test="searchOption == 'writer'">
-								and mem_name like '%'||#{keyword}||'%' and
-								reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')+1
+								and mem_name like '%'||#{keyword}||'%' 
 							</when>
 							<when test="searchOption == 'title'">
 								and board_subject like '%'||#{keyword}||'%' and
-								reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')+1
 							</when>
 							<otherwise>
 								and (board_subject like '%'||#{keyword}||'%' or
-								board_content like '%'||#{keyword}||'%') and
-								reg_date between to_date(#{datepicker}, 'YYYY-MM-DD') and to_date(#{datepicker1}, 'YYYY-MM-DD')+1
+								board_content like '%'||#{keyword}||'%')
 							</otherwise>
 						</choose>
-						and rnm <![CDATA[>=]]> ${firstPage} and rnm <![CDATA[<=]]> ${limit}
+						and rnm <![CDATA[>=]]> (${nowPage}-1)*${limit}+1 and rnm <![CDATA[<=]]> ${nowPage}*${limit}
 					</otherwise>
 				</choose>
+	</select>
+	
+	<select id="select" resultMap="mapList">
+		select
+			seq
+			,mem_name
+			,mem_id
+			,board_subject
+			,board_content
+			,reg_date
+			,upt_date
+			,view_cnt
+		from (select rownum rnm
+			,seq
+			,mem_name
+			,mem_id
+			,board_subject
+			,board_content
+			,reg_date
+			,upt_date
+			,view_cnt
+		from (select seq
+			,mem_name
+			,mem_id
+			,board_subject
+			,board_content
+			,reg_date
+			,upt_date
+			,view_cnt from board_study order by seq desc))
+		where 1=1
 	</select>
 </mapper>

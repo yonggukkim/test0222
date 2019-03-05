@@ -1,11 +1,14 @@
 package com.study.project.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.study.project.service.BoardService;
 
@@ -24,9 +28,16 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("list")
-	public String list(@RequestParam Map<String, Object> map, Model model) {
-		String sel = boardService.list(map, model);
-		return sel;
+	public String list() {
+		return "board";
+	}
+	
+	@RequestMapping("ajax")
+	public String ajax(@RequestParam Map<String, Object> map, Model model) {
+		System.out.println("ajax controller"+ map);
+		boardService.ajax(map, model);
+		System.out.println("서비스호출끝");
+		return "ajaxBoard";
 	}
 	
 	@RequestMapping("list1")
@@ -78,6 +89,26 @@ public class BoardController {
 		System.out.println("controller "+ map);
 		String dd = boardService.delete(map);
 		return dd;
+	}
+	
+	
+	@RequestMapping("upload")
+	public String upload(MultipartHttpServletRequest mRequest) throws IllegalStateException, IOException {
+		System.out.println("파일 업로드");
+		String up = boardService.upload(mRequest);
+		return up;
+	}
+	
+	@RequestMapping("download")
+	public String download(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String down = boardService.download(request, response);
+		return down;
+	}
+	
+	@RequestMapping("excel")
+	public String excel(Model model) {
+		String ex = boardService.excel(model);
+		return ex;
 	}
 	
 	@RequestMapping("miplTest")

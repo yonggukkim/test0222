@@ -16,12 +16,6 @@ public class BoardDaoImpl implements BoardDao{
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<Map<String, Object>> list(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.list", map);
-	}
-	
-	@Override
 	public List<Map<String, Object>> list1(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.list1", map);
@@ -77,14 +71,20 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public Integer totalCount() {
+	public Integer totalCount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("mapper.totalCount");
+		return sqlSession.selectOne("mapper.totalCount", map);
 	}
 
 	@Override
 	public List<Map<String, Object>> limitSave(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.limitSave", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> select() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("mapper.select");
 	}
 }
