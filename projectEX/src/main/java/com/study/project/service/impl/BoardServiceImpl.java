@@ -41,19 +41,16 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Map<String, Object>> list1(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return boardDao.list1(map);
 	}
 
 	@Override
 	public List<Map<String, Object>> list2() {
-		// TODO Auto-generated method stub
 		return boardDao.list2();
 	}
 
 	@Override
 	public String write(HttpServletRequest request, Model model) {
-		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println("service " + request.getParameter("memName"));
 		System.out.println("service " + request.getParameter("memId"));
@@ -74,14 +71,12 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Map<String, Object> modi(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		String sub = request.getParameter("seq");
 		return boardDao.modify1(sub);
 	}
 
 	@Override
 	public String modify(HttpServletRequest request, Model model) {
-		// TODO Auto-generated method stub
 		Map<String, Object> modi = new HashMap<String, Object>();
 		System.out.println("service " + request.getParameter("memName"));
 		System.out.println("service " + request.getParameter("memId"));
@@ -102,7 +97,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public String delete(Map<String, List<String>> map) {
-		// TODO Auto-generated method stub
 		System.out.println("service " + map);
 		Integer ect = boardDao.delete(map);
 		return "redirect:/list";
@@ -110,7 +104,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public String upload(MultipartHttpServletRequest mRequest) throws IllegalStateException, IOException {
-		// TODO Auto-generated method stub
 		// 파일경로
 		String path="C:\\Users\\dev\\Desktop\\upload\\";
 		Iterator<String> iterator = mRequest.getFileNames();
@@ -135,7 +128,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public String download(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
         String filename = request.getParameter("filename");
         String fullPath = "C:/Users/dev/Desktop/upload/" + filename ;
         File file = new File(fullPath);
@@ -187,7 +179,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void ajax(Map<String, Object> map, Model model) {
-		// TODO Auto-generated method stub
 		// search
 //		System.out.println(map.get("datepicker"));
 		LocalDate currentDate = LocalDate.now();
@@ -267,7 +258,6 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public String miplTest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
 		Dataset ds = new Dataset("javaList");
 		ds.addColumn("seq", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("memName", ColumnInfo.COLUMN_TYPE_STRING, 1000);
@@ -275,7 +265,7 @@ public class BoardServiceImpl implements BoardService {
 		ds.addColumn("boardSubject", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("boardContent", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("regDate", ColumnInfo.COLUMN_TYPE_STRING, 1000);
-		ds.addColumn("uptData", ColumnInfo.COLUMN_TYPE_STRING, 1000);
+		ds.addColumn("uptDate", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("viewCnt", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		List<Map<String, Object>> mipl = new ArrayList<Map<String, Object>>();
 		mipl = boardDao.miplTest();
@@ -283,7 +273,7 @@ public class BoardServiceImpl implements BoardService {
 		for (int i = 0; i < mipl.size(); i++) {
 			int row = ds.appendRow();
 			System.out.println(mipl.get(i).toString());
-
+			System.out.println(mipl.get(i).get("uptDate"));
 			ds.setColumn(row, "seq", nullValueChk(mipl.get(i).get("seq")));
 
 			ds.setColumn(row, "memName", nullValueChk(mipl.get(i).get("memName")));
@@ -296,11 +286,7 @@ public class BoardServiceImpl implements BoardService {
 
 			ds.setColumn(row, "regDate", nullValueChk(mipl.get(i).get("regDate")));
 
-			if ((String) mipl.get(i).get("uptData") == null) {
-				ds.setColumn(row, "uptDate", "");
-			} else {
-				ds.setColumn(row, "uptDate", (String) mipl.get(i).get("uptData"));
-			}
+			ds.setColumn(row, "uptDate", nullValueChk(mipl.get(i).get("uptDate")));
 
 			ds.setColumn(row, "viewCnt", nullValueChk(mipl.get(i).get("viewCnt")));
 
@@ -329,7 +315,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void miplSearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
 		Dataset ds = new Dataset("javaList");
 		ds.addColumn("seq", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("memName", ColumnInfo.COLUMN_TYPE_STRING, 1000);
@@ -337,7 +322,7 @@ public class BoardServiceImpl implements BoardService {
 		ds.addColumn("boardSubject", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("boardContent", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("regDate", ColumnInfo.COLUMN_TYPE_STRING, 1000);
-		ds.addColumn("uptData", ColumnInfo.COLUMN_TYPE_STRING, 1000);
+		ds.addColumn("uptDate", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 		ds.addColumn("viewCnt", ColumnInfo.COLUMN_TYPE_STRING, 1000);
 
 		List<Map<String, Object>> mipl = new ArrayList<Map<String, Object>>();
@@ -389,11 +374,7 @@ public class BoardServiceImpl implements BoardService {
 
 			ds.setColumn(row, "regDate", nullValueChk(mipl.get(i).get("regDate")));
 
-			if ((String) mipl.get(i).get("uptData") == null) {
-				ds.setColumn(row, "uptDate", "");
-			} else {
-				ds.setColumn(row, "uptDate", (String) mipl.get(i).get("uptData"));
-			}
+			ds.setColumn(row, "uptDate", nullValueChk(mipl.get(i).get("uptDate")));
 
 			ds.setColumn(row, "viewCnt", nullValueChk(mipl.get(i).get("viewCnt")));
 
@@ -407,5 +388,49 @@ public class BoardServiceImpl implements BoardService {
 
 		PlatformResponse pRes = new PlatformResponse(response, PlatformRequest.XML, "UTF-8");
 		pRes.sendData(vl, dl);
+	}
+
+	@Override
+	public void miplInsert(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		PlatformRequest miplreq = new PlatformRequest(req, "utf-8");
+		DatasetList dl = new DatasetList();
+		miplreq.receiveData();
+		dl = miplreq.getDatasetList();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		Dataset ds = dl.getDataset("javaList");
+		
+		int rowcnt = ds.getRowCount();
+		
+		for(int j = 0; j < ds.getDeleteRowCount(); j++ )
+        {
+            String del_id = ds.getDeleteColumn(j, "seq").toString();
+            int d = boardDao.miplDelete(del_id);
+        }
+		
+		for(int i=0; i< rowcnt; i++) {
+			String row_status = ds.getRowStatus(i);
+			if(row_status.equals("insert") == true) {
+				map.put("memName", ds.getColumnAsString(i, "memName"));
+				map.put("memId",ds.getColumnAsString(i, "memId"));
+				map.put("boardSubject",ds.getColumnAsString(i, "boardSubject"));
+				map.put("boardContent",ds.getColumnAsString(i, "boardContent"));
+				int a = boardDao.miplInsert(map);
+				if(a != 0) System.out.println("성공");
+				else System.out.println("실패");
+			}
+			else if(row_status.equals("update") == true) {
+				map.put("seq", ds.getColumnAsString(i, "seq"));
+				map.put("memName", ds.getColumnAsString(i, "memName"));
+				map.put("memId",ds.getColumnAsString(i, "memId"));
+				map.put("boardSubject",ds.getColumnAsString(i, "boardSubject"));
+				map.put("boardContent",ds.getColumnAsString(i, "boardContent"));
+				int b = boardDao.miplupdate(map);
+				if(b != 0) System.out.println("성공");
+				else System.out.println("실패");
+			}
+		}
+		int cnt = ds.getColumnCount();
+		
 	}
 }

@@ -123,4 +123,10 @@ public class BoardController {
 		System.out.println("errrororo 검출");
 		boardService.miplSearch(request,response);
 	}
+	
+	@RequestMapping("miplInsert")
+	public void miplInsert(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		System.out.println("마이플 인설트 error 검출");
+		boardService.miplInsert(req,res);
+	}
 }

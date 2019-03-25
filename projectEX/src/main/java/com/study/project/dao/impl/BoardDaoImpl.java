@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.study.project.dao.BoardDao;
+import com.tobesoft.platform.data.DatasetList;
 
 @Repository("dao")
 public class BoardDaoImpl implements BoardDao{
@@ -17,13 +18,11 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<Map<String, Object>> list1(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.list1", map);
 	}
 
 	@Override
 	public List<Map<String, Object>> list2() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.list2");
 	}
 
@@ -36,7 +35,6 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Map<String, Object> modify1(String sub) {
-		// TODO Auto-generated method stub
 		Map<String, Object> modilist = sqlSession.selectOne("mapper.modi", sub);
 		sqlSession.update("mapper.cnt", modilist);
 		return modilist;
@@ -44,7 +42,6 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public Integer modify(Map<String, Object> modi) {
-		// TODO Auto-generated method stub
 		Integer b = (Integer)sqlSession.update("mapper.modify",modi);
 		System.out.println("refsad "+ b);
 		return b;
@@ -59,32 +56,42 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public List<Map<String, Object>> miplTest() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.miplTest");
-	}
-
-	@Override
-	public List<Map<String, Object>> miplSearch(Map<String, Object> search) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("mapper.miplSearch", search);
-	}
-
-	@Override
 	public Integer totalCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.totalCount", map);
 	}
 
 	@Override
 	public List<Map<String, Object>> limitSave(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.limitSave", map);
 	}
 
 	@Override
 	public List<Map<String, Object>> select() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("mapper.select");
+	}
+
+	@Override
+	public List<Map<String, Object>> miplTest() {
+		return sqlSession.selectList("mapper.miplTest");
+	}
+	
+	@Override
+	public List<Map<String, Object>> miplSearch(Map<String, Object> search) {
+		return sqlSession.selectList("mapper.miplSearch", search);
+	}
+
+	@Override
+	public int miplInsert(Map<String, Object> map) {
+		return sqlSession.insert("mapper.miplInsert",map);
+	}
+
+	@Override
+	public int miplupdate(Map<String, Object> map) {
+		return sqlSession.update("mapper.miplUpdate", map);
+	}
+
+	@Override
+	public int miplDelete(String del_id) {
+		return sqlSession.delete("mapper.miplDelete",del_id);
 	}
 }

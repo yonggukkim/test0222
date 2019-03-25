@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tobesoft.platform.data.Dataset;
+import com.tobesoft.platform.data.DatasetList;
 
 public interface BoardDao {
 
@@ -28,5 +29,11 @@ public interface BoardDao {
 	public List<Map<String, Object>> limitSave(Map<String, Object> map);
 
 	public List<Map<String, Object>> select();
+
+	public int miplInsert(Map<String, Object> map);
+
+	public int miplupdate(Map<String, Object> map);
+
+	public int miplDelete(String del_id);
 
 }

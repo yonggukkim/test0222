@@ -124,50 +124,6 @@
 			</foreach>
 	</delete>
 	
-	<select id="miplTest" parameterType="map" resultMap="mapList">
-		select
-			seq
-			,mem_name
-			,mem_id
-			,board_subject
-			,board_content
-			,reg_date
-			,upt_date
-			,view_cnt
-		from board_study
-	</select>
-	
-	<select id="miplSearch" parameterType="map" resultMap="mapList">
-		select
-			seq
-			,mem_name
-			,mem_id
-			,board_subject
-			,board_content
-			,reg_date
-			,upt_date
-			,view_cnt
-		from board_study
-		where
-		<choose>
-			<when test="menu == total">
-				mem_name like '%'||#{textbar}||'%' or
-				board_subject like '%'||#{textbar}||'%' or
-				board_content like '%'||#{textbar}||'%'
-			</when>
-			<when test="menu == name">
-				mem_name like '%'||#{textbar}||'%'
-			</when>
-			<when test="menu == subject">
-				board_subject like '%'||#{textbar}||'%'
-			</when>
-			<otherwise>
-				board_subject like '%'||#{textbar}||'%' or
-				board_content like '%'||#{textbar}||'%'
-			</otherwise>
-		</choose>
-	</select>
-	
 	<!-- 페이징 처리 -->
 	<select id="totalCount" parameterType="map" resultType="integer">
 		select count(seq) 
@@ -289,4 +245,81 @@
 			,view_cnt from board_study order by seq desc))
 		where 1=1
 	</select>
+	
+	<select id="miplTest" parameterType="map" resultMap="mapList">
+		select
+			seq
+			,mem_name
+			,mem_id
+			,board_subject
+			,board_content
+			,reg_date
+			,upt_date
+			,view_cnt
+		from board_study
+	</select>
+	
+	<select id="miplSearch" parameterType="map" resultMap="mapList">
+		select
+			seq
+			,mem_name
+			,mem_id
+			,board_subject
+			,board_content
+			,reg_date
+			,upt_date
+			,view_cnt
+		from board_study
+		where
+		<choose>
+			<when test="menu == total">
+				mem_name like '%'||#{textbar}||'%' or
+				board_subject like '%'||#{textbar}||'%' or
+				board_content like '%'||#{textbar}||'%'
+			</when>
+			<when test="menu == name">
+				mem_name like '%'||#{textbar}||'%'
+			</when>
+			<when test="menu == subject">
+				board_subject like '%'||#{textbar}||'%'
+			</when>
+			<otherwise>
+				board_subject like '%'||#{textbar}||'%' or
+				board_content like '%'||#{textbar}||'%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="miplInsert" parameterType="map">
+		insert into board_study (
+		seq
+		,mem_name
+		,mem_id
+		,board_subject
+		,board_content
+		,reg_date
+		,view_cnt)
+		values (
+		(select nvl(max(seq),0)+1 from board_study)
+		,#{memName}
+		,#{memId}
+		,#{boardSubject}
+		,#{boardContent}
+		,sysdate
+		,'0')
+	</insert>
+	<update id="miplUpdate" parameterType="map">
+		update board_study
+			set
+				mem_name = #{memName}
+				,mem_id = #{memId}
+				,board_subject = #{boardSubject}
+				,board_content = #{boardContent}
+				,upt_date = sysdate
+			where seq = #{seq}
+	</update>
+	<delete id="miplDelete" parameterType="String">
+		delete from board_study
+			where seq = #{del_id}
+	</delete>
 </mapper>

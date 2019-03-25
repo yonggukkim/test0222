@@ -26,10 +26,6 @@ public interface BoardService {
 
 	public String delete(Map<String, List<String>> map);
 
-	public String miplTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	public void miplSearch(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 	public void ajax(Map<String, Object> map, Model model);
 
 	public String upload(MultipartHttpServletRequest mRequest) throws IllegalStateException, IOException;
@@ -37,4 +33,10 @@ public interface BoardService {
 	public String download(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 	public String excel(Model model);
+
+	public String miplTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	public void miplSearch(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public void miplInsert(HttpServletRequest req, HttpServletResponse res) throws Exception;
 }
