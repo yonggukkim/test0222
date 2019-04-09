@@ -112,14 +112,17 @@ public class BoardServiceImpl implements BoardService {
 		if(file.exists() == false) {
 			file.mkdirs();
 		}
-		
+//		System.out.println("files 확인 : "+files.toString());
+//		System.out.println("files 확인 : "+files.get(0).getName());
 		System.out.println("iterator.toString : "+iterator.toString());
 		while(iterator.hasNext()) {
-			MultipartFile mFile = mRequest.getFile(iterator.next());
-			System.out.println("mfile is Empty : "+mFile.isEmpty());
+		MultipartFile mFile = mRequest.getFile(iterator.next());
+//		for(int i = 0, s =files.size(); i < s; i++) {
+//			MultipartFile mFile = mRequest.getFile(files.get(i).getName());
+//			System.out.println("mfile is Empty : "+mFile.isEmpty());
 			if(mFile.isEmpty() == false) {
 				String fileName = System.currentTimeMillis() + "_" + mFile.getOriginalFilename();
-				
+				System.out.println("파일 네임 : "+fileName);
 				mFile.transferTo(new File(path + fileName));
 			}
 		}
@@ -147,14 +150,14 @@ public class BoardServiceImpl implements BoardService {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition","attachment;filename=\"" +fileName+"\";");
         
-        FileInputStream fis=new FileInputStream(file);
-        BufferedInputStream bis=new BufferedInputStream(fis);
-        ServletOutputStream so=response.getOutputStream();
-        BufferedOutputStream bos=new BufferedOutputStream(so);
+        FileInputStream fis = new FileInputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        ServletOutputStream so = response.getOutputStream();
+        BufferedOutputStream bos = new BufferedOutputStream(so);
         
         // 파일 넣는 곳
-        byte[] data=new byte[2048];
-        int input=0;
+        byte[] data = new byte[2048];
+        int input = 0;
         while((input=bis.read(data))!=-1){
          bos.write(data,0,input);
          bos.flush();

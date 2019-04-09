@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -28,6 +28,7 @@
 			if($(this).val() != "") {
 				// 확장자 체크
 				var ext = $(this).val().split(".").pop().toLowerCase();
+				alert("ext검사 "+ ext);
 				if($.inArray(ext, ["gif","jpg","jpeg","png"]) == -1) {
 					alert("gif, jpg, jpeg, png 파일만 업로드 해주세요.");
 					$(this).val("");
